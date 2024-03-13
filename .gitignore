@@ -21,5 +21,6 @@ dist/
 .idea/
 .DS_Store
 
+
 .vs/
 backend/organizer/db.sqlite3

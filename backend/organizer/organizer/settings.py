@@ -40,8 +40,8 @@ INSTALLED_APPS = [
 
     'user',
     'event',
-]
 
+    ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
