@@ -17,7 +17,7 @@ class Event(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="Событие")
     title = models.CharField(max_length=200, verbose_name="Название")
     description = models.TextField(verbose_name="Описание")
-    start_time = models.DateTimeField(auto_now_add=True, verbose_name="Дата начала", null=False)
+    start_time = models.DateTimeField(verbose_name="Дата начала", null=False)
     end_time = models.DateTimeField(verbose_name="Дата окончания", null=False)
     priority = models.CharField(max_length=50, choices=PRIORITY, default=HIGH_PRIORITY, verbose_name="Приоритет")
 
