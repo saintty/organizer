@@ -3,8 +3,8 @@ from django.urls import path, include
 
 
 api_urls = [
-    path('event/', include('event.urls')),
-    path('users/', include('user.urls')),
+    path('', include('authentication.urls', namespace='authentication')),
+    path('', include('authentication.urls', namespace='authentication')),
 ]
 
 urlpatterns = [
