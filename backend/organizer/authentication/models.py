@@ -3,7 +3,6 @@ from datetime import datetime, timedelta
 from django.conf import settings
 from django.contrib.auth.models import 	AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
-
 class UserManager(BaseUserManager):
     """
     Django требует, чтобы кастомные пользователи определяли свой собственный
@@ -63,6 +62,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     # сайта. Для большинства пользователей это флаг будет ложным.
     is_staff = models.BooleanField(default=False)
 
+    # Для верификации по почте
+    is_verified = models.BooleanField(default=False)
+
     # Временная метка создания объекта.
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -119,3 +121,5 @@ class User(AbstractBaseUser, PermissionsMixin):
         }, settings.SECRET_KEY, algorithm='HS256')
 
         return token.decode('utf-8')
+
+
