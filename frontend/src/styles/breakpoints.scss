@@ -1,0 +1,7 @@
+$tabletScreenSize: 700;
+
+@mixin tablet() {
+  @media only screen and (max-width: #{$tabletScreenSize}px) {
+    @content;
+  }
+}
