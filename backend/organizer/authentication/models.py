@@ -41,6 +41,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     # который мы можем использовать для предоставления User в пользовательском
     # интерфейсе. Мы так же проиндексируем этот столбец в базе данных для
     # повышения скорости поиска в дальнейшем.
+    id = models.AutoField(primary_key=True)
     username = models.CharField(db_index=True, max_length=255, unique=True)
 
     # Так же мы нуждаемся в поле, с помощью которого будем иметь возможность

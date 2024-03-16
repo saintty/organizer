@@ -1,19 +1,19 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 
-from event.models import Event
-from event.permission import UserIsOwnerEvent
-from event.serializer import EventSerializer
+from .models import Event
+from .permission import UserIsOwnerEvent
+from .serializer import EventSerializer
 
 
 class EventListCreateAPIView(ListCreateAPIView):
     serializer_class = EventSerializer
 
     def get_queryset(self):
-        return Event.objects.filter(user=self.request.user)
+        return Event.objects.filter(user=self.request.user.id)
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(user=self.request.user.id)
 
 
 class EventDetailAPIView(RetrieveUpdateDestroyAPIView):
