@@ -1,0 +1,30 @@
+@import "./../../../../styles/colors.scss";
+
+.root {
+  padding: 20px;
+  border-radius: 20px;
+  background-color: $white;
+}
+
+.week {
+  display: grid;
+  gap: 5px;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: 120px;
+
+  & + & {
+    margin-top: 5px;
+  }
+}
+
+.day {
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #d1f4e0;
+
+  &.empty {
+    cursor: not-allowed;
+    background-color: #e1e2e3;
+  }
+}

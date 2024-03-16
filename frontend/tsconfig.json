@@ -23,7 +23,10 @@
     "baseUrl": ".",
     "paths": {
       "@components/*": ["src/components/common/*"],
-      "@pages/*": ["src/components/pages/*"]
+      "@pages/*": ["src/components/pages/*"],
+      "@type/*": ["src/types/*"],
+      "@stub/*": ["src/stub/*"],
+      "@utils/*": ["src/utils/*"]
     }
   },
   "include": ["src"],
