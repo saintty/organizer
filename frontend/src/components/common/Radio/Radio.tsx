@@ -2,15 +2,18 @@ import { ChangeEvent, FC } from "react";
 import cx from "classnames";
 
 import s from "./Radio.module.scss";
+import { EPriority } from "@type/event";
 
 interface RadioProps {
   className?: string;
   id: string;
-  value: string;
+  value: EPriority;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onClick: (value: EPriority) => void;
   name?: string;
   label: string;
   checked?: boolean;
+  defaultChecked?: boolean;
 }
 
 const Radio: FC<RadioProps> = ({
@@ -18,6 +21,7 @@ const Radio: FC<RadioProps> = ({
   className,
   value,
   onChange,
+  onClick,
   name,
   label,
   checked,
@@ -28,12 +32,18 @@ const Radio: FC<RadioProps> = ({
         id={id}
         className={s.input}
         value={value}
-        onChange={onChange}
         type="radio"
         name={name}
+        onChange={onChange}
         checked={checked}
       />
-      <label className={s.label} htmlFor={id}>
+      <label
+        className={s.label}
+        htmlFor={id}
+        onClick={() => {
+          onClick(value);
+        }}
+      >
         {label}
       </label>
     </div>

@@ -8,11 +8,12 @@ import { createDateKey, eventsByDate } from "@utils/calendar";
 import Container from "@components/Container";
 import Events from "./Events";
 import Calendar from "./Calendar";
+import EditModal from "./EditModal";
+import CreateModal from "./CreateModal";
 
 import { events } from "@stub/events";
 
 import s from "./Home.module.scss";
-import EditModal from "./EditModal";
 
 interface HomeProps {
   className?: string;
@@ -45,6 +46,7 @@ const Home: FC<HomeProps> = ({ className }) => {
         />
       </Container>
       <EditModal event={events[0]} />
+      <CreateModal />
     </main>
   );
 };

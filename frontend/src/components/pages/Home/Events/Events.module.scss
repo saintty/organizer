@@ -6,15 +6,19 @@
   border-radius: 20px;
 }
 
+.header {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .list {
   display: flex;
   gap: 20px;
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
-}
-
-.title {
 }
 
 .event {
