@@ -1,0 +1,50 @@
+@import "./../../../styles/colors.scss";
+@import "./../../../styles/breakpoints.scss";
+
+.root {
+  position: fixed;
+  inset: 0;
+  overflow-y: scroll;
+  padding: 16px 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba($black, 0.6);
+  transition: opacity 0.3s ease;
+
+  &.visible {
+    display: flex;
+  }
+
+  @include tablet {
+    align-items: flex-start;
+  }
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.close {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+}
+
+.modal {
+  padding: 20px;
+  border-radius: 20px;
+  background: $white;
+
+  @include tablet {
+    padding: 10px;
+    border-radius: 10px;
+  }
+}
+
+.content {
+  margin-top: 20px;
+}

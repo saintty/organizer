@@ -5,6 +5,8 @@
   cursor: pointer;
   width: 100%;
   padding: 10px 20px;
+  resize: vertical;
+  min-height: 250px;
 
   border: none;
   outline: none;
@@ -28,6 +30,7 @@
   @include tablet {
     padding: 5px 10px;
     border-radius: 7px;
+    resize: none;
 
     &,
     &::placeholder {

@@ -1,0 +1,65 @@
+@import "./../../../../styles/breakpoints.scss";
+
+.content {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.dates {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  @include tablet {
+    flex-direction: column;
+  }
+}
+
+.date {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+}
+
+.label {
+  @include tablet {
+    flex-shrink: 0;
+    display: block;
+    width: 40px;
+  }
+}
+
+.priority {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+
+  &Title {
+    width: 100%;
+  }
+}
+
+.radio {
+  width: 100%;
+  display: flex;
+  gap: 40px;
+  align-content: center;
+  justify-content: flex-start;
+  margin-top: 10px;
+
+  @include tablet {
+    gap: 10px;
+  }
+}
+
+.button {
+  margin-top: 20px;
+  text-align: center;
+}
