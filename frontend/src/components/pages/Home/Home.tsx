@@ -1,6 +1,10 @@
 import { FC, useCallback, useMemo, useState } from "react";
 import cx from "classnames";
 
+import { IEvent, TEventMap } from "@type/event";
+
+import { createDateKey, eventsByDate } from "@utils/calendar";
+
 import Container from "@components/Container";
 import Events from "./Events";
 import Calendar from "./Calendar";
@@ -8,8 +12,7 @@ import Calendar from "./Calendar";
 import { events } from "@stub/events";
 
 import s from "./Home.module.scss";
-import { createDateKey, eventsByDate } from "@utils/calendar";
-import { IEvent, TEventMap } from "@type/event";
+import EditModal from "./EditModal";
 
 interface HomeProps {
   className?: string;
@@ -34,13 +37,14 @@ const Home: FC<HomeProps> = ({ className }) => {
     <main className={cx(s.root, className)}>
       <Container className={s.container}>
         <h1 className={s.title}>Organizer</h1>
-        <Calendar onClick={handleChooseDate} events={eventsByDate(events)} />
+        {/* <Calendar onClick={handleChooseDate} events={eventsByDate(events)} /> */}
         <Events
           date={selectedDate}
           items={eventListByDate}
           className={s.events}
         />
       </Container>
+      <EditModal event={events[0]} />
     </main>
   );
 };

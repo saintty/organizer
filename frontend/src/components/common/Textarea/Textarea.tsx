@@ -1,35 +1,32 @@
-import { ChangeEvent, FC, HTMLInputTypeAttribute } from "react";
+import { ChangeEvent, FC } from "react";
 import cx from "classnames";
 
-import s from "./Input.module.scss";
+import s from "./Textarea.module.scss";
 
-interface InputProps {
+interface TextareaProps {
   className?: string;
   value: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   placeholder?: string;
-  type?: HTMLInputTypeAttribute;
   name?: string;
 }
 
-const Input: FC<InputProps> = ({
+const Textarea: FC<TextareaProps> = ({
   className,
   value,
   onChange,
   placeholder = "",
-  type,
   name,
 }) => {
   return (
-    <input
+    <textarea
       className={cx(s.root, className)}
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      type={type}
       name={name}
     />
   );
 };
 
-export default Input;
+export default Textarea;
