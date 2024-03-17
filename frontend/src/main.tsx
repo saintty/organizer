@@ -4,9 +4,12 @@ import App from "./App.tsx";
 
 import "./styles/reset.scss";
 import "./styles/globals.scss";
+import ApplicationContext from "@context/ApplicationContext/index.ts";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App />
+    <ApplicationContext>
+      <App />
+    </ApplicationContext>
   </React.StrictMode>
 );

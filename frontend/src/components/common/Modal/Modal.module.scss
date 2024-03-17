@@ -6,10 +6,15 @@
   inset: 0;
   overflow-y: scroll;
   padding: 16px 0;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   background-color: rgba($black, 0.6);
+  transition: opacity 0.3s ease;
+
+  &.visible {
+    display: flex;
+  }
 
   @include tablet {
     align-items: flex-start;

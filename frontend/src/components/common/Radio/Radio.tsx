@@ -10,6 +10,7 @@ interface RadioProps {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   name?: string;
   label: string;
+  checked?: boolean;
 }
 
 const Radio: FC<RadioProps> = ({
@@ -19,6 +20,7 @@ const Radio: FC<RadioProps> = ({
   onChange,
   name,
   label,
+  checked,
 }) => {
   return (
     <div className={cx(s.root, className)}>
@@ -29,6 +31,7 @@ const Radio: FC<RadioProps> = ({
         onChange={onChange}
         type="radio"
         name={name}
+        checked={checked}
       />
       <label className={s.label} htmlFor={id}>
         {label}

@@ -8,6 +8,10 @@ import { convertPeriodToDayPart, convertTimeMonthPart } from "@utils/date";
 import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
 
 import s from "./Events.module.scss";
+import {
+  IApplicationContext,
+  useApplicationContext,
+} from "@context/ApplicationContext";
 
 interface EventsProps {
   className?: string;
@@ -16,6 +20,9 @@ interface EventsProps {
 }
 
 const Events: FC<EventsProps> = ({ className, date, items }) => {
+  const { setEditedEvent, setIsEditOpen } =
+    useApplicationContext() as IApplicationContext;
+
   return (
     date && (
       <section className={cx(s.root, className)}>
@@ -38,7 +45,13 @@ const Events: FC<EventsProps> = ({ className, date, items }) => {
                     </div>
                   </div>
                   <div className={s.right}>
-                    <button className={s.button} onClick={() => {}}>
+                    <button
+                      className={s.button}
+                      onClick={() => {
+                        setEditedEvent(item);
+                        setIsEditOpen(true);
+                      }}
+                    >
                       <MdOutlineEdit size={25} />
                     </button>
                     <button className={s.button}>

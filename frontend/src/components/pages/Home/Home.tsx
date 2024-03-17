@@ -37,7 +37,7 @@ const Home: FC<HomeProps> = ({ className }) => {
     <main className={cx(s.root, className)}>
       <Container className={s.container}>
         <h1 className={s.title}>Organizer</h1>
-        {/* <Calendar onClick={handleChooseDate} events={eventsByDate(events)} /> */}
+        <Calendar onClick={handleChooseDate} events={eventsByDate(events)} />
         <Events
           date={selectedDate}
           items={eventListByDate}

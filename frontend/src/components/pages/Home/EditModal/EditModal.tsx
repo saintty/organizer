@@ -1,15 +1,20 @@
-import { ChangeEvent, FC, useCallback, useState } from "react";
+import { ChangeEvent, FC, useCallback, useEffect } from "react";
 import cx from "classnames";
 
 import { EPriority, IEvent } from "@type/event";
 
+import {
+  IApplicationContext,
+  useApplicationContext,
+} from "@context/ApplicationContext";
+
 import Modal from "@components/Modal";
 import Input from "@components/Input";
 import Button from "@components/Button";
-
-import s from "./EditModal.module.scss";
 import Textarea from "@components/Textarea";
 import Radio from "@components/Radio";
+
+import s from "./EditModal.module.scss";
 
 interface EditModalProps {
   className?: string;
@@ -17,7 +22,10 @@ interface EditModalProps {
 }
 
 const EditModal: FC<EditModalProps> = ({ className, event }) => {
-  const [edited, setEdited] = useState<IEvent>({ ...event });
+  const { editedEvent, setEditedEvent, isEditOpen, setIsEditOpen } =
+    useApplicationContext() as IApplicationContext;
+
+  useEffect(() => setEditedEvent({ ...event }), [event, setEditedEvent]);
 
   const handleChangeField = useCallback(
     (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -26,23 +34,25 @@ const EditModal: FC<EditModalProps> = ({ className, event }) => {
           ? e.target.value + ":00Z"
           : e.target.value;
 
-      setEdited((prev) => ({ ...prev, [e.target.name]: changedValue }));
+      setEditedEvent((prev) => ({ ...prev, [e.target.name]: changedValue }));
     },
-    []
+    [setEditedEvent]
   );
 
   return (
     <Modal
       className={cx(s.root, className)}
-      isVisible={true}
-      onClose={() => {
-        event.id;
-      }}
+      isVisible={isEditOpen}
+      onClose={() => setIsEditOpen(false)}
     >
       <div className={s.content}>
-        <Input value={edited.title} onChange={handleChangeField} name="title" />
+        <Input
+          value={editedEvent.title}
+          onChange={handleChangeField}
+          name="title"
+        />
         <Textarea
-          value={edited.description}
+          value={editedEvent.description}
           onChange={handleChangeField}
           name="description"
         />
@@ -51,7 +61,7 @@ const EditModal: FC<EditModalProps> = ({ className, event }) => {
             <span className={s.label}>Start: </span>
             <Input
               className={s.dateField}
-              value={edited.startTime.substring(0, 16)}
+              value={editedEvent.startTime.substring(0, 16)}
               onChange={handleChangeField}
               type="datetime-local"
               name="startTime"
@@ -61,7 +71,7 @@ const EditModal: FC<EditModalProps> = ({ className, event }) => {
             <span className={s.label}>End: </span>
             <Input
               className={s.dateField}
-              value={edited.endTime.substring(0, 16)}
+              value={editedEvent.endTime.substring(0, 16)}
               onChange={handleChangeField}
               type="datetime-local"
               name="endTime"
@@ -77,6 +87,7 @@ const EditModal: FC<EditModalProps> = ({ className, event }) => {
               value={EPriority.low}
               name="priority"
               label="Low"
+              checked={editedEvent.priority === EPriority.low}
             />
             <Radio
               id="medium"
@@ -84,6 +95,7 @@ const EditModal: FC<EditModalProps> = ({ className, event }) => {
               value={EPriority.medium}
               name="priority"
               label="Medium"
+              checked={editedEvent.priority === EPriority.medium}
             />
             <Radio
               id="high"
@@ -91,12 +103,13 @@ const EditModal: FC<EditModalProps> = ({ className, event }) => {
               value={EPriority.high}
               name="priority"
               label="High"
+              checked={editedEvent.priority === EPriority.high}
             />
           </div>
         </div>
       </div>
       <div className={s.button}>
-        <Button label="Edit" onClick={() => console.log(edited)} />
+        <Button label="Edit" onClick={() => console.log(editedEvent)} />
       </div>
     </Modal>
   );
