@@ -1,9 +1,15 @@
 @import "./../../../../styles/colors.scss";
+@import "./../../../../styles/breakpoints.scss";
 
 .root {
   padding: 20px;
   background-color: $white;
   border-radius: 20px;
+
+  @include tablet {
+    padding: 10px;
+    border-radius: 10px;
+  }
 }
 
 .header {
@@ -19,6 +25,10 @@
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
+
+  @include tablet {
+    margin-top: 10px;
+  }
 }
 
 .event {
@@ -29,6 +39,10 @@
 
   &Title {
     font-weight: bold;
+  }
+
+  @include mobile {
+    border-radius: 5px;
   }
 }
 
@@ -63,6 +77,14 @@
 
   background: none;
   border: none;
+
+  @include mobile {
+    &,
+    & svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
 }
 
 .empty {

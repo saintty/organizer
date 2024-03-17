@@ -42,9 +42,13 @@ const Calendar: FC<CalendarProps> = ({ className, onClick, events }) => {
                 <div className={s.cell}>
                   <p className={s.dayNum}>{day.date.getDate()}</p>
                   <div className={s.info}>
-                    <p className={s.planned}>Planned: {day.events.length}</p>
+                    <p className={s.planned}>
+                      <span className={s.hide}>Planned: </span>
+                      {day.events.length}
+                    </p>
                     <p className={s.withHigh}>
-                      High priority: {withHightPriority(day.events)}
+                      <span className={s.hide}>High priority: </span>
+                      {withHightPriority(day.events)}
                     </p>
                   </div>
                 </div>
