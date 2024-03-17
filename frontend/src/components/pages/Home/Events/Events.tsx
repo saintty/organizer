@@ -17,35 +17,44 @@ interface EventsProps {
 
 const Events: FC<EventsProps> = ({ className, date, items }) => {
   return (
-    <section className={cx(s.root, className)}>
-      <h2 className={s.title}>{date && convertTimeMonthPart(date)}</h2>
-      <ul className={s.list}>
-        {items.map((item: IEvent) => (
-          <li className={s.event} key={item.id}>
-            <div className={s.top}>
-              <div className={s.left}>
-                <h3 className={s.eventTitle}>
-                  {item.title}
-                  <span className={s.priority}>Priority: {item.priority}</span>
-                </h3>
-                <div className={s.time}>
-                  Time: {convertPeriodToDayPart(item.startTime, item.endTime)}
+    date && (
+      <section className={cx(s.root, className)}>
+        <h2 className={s.title}>{date && convertTimeMonthPart(date)}</h2>
+        {items.length > 0 ? (
+          <ul className={s.list}>
+            {items.map((item: IEvent) => (
+              <li className={s.event} key={item.id}>
+                <div className={s.top}>
+                  <div className={s.left}>
+                    <h3 className={s.eventTitle}>
+                      {item.title}
+                      <span className={s.priority}>
+                        Priority: {item.priority}
+                      </span>
+                    </h3>
+                    <div className={s.time}>
+                      Time:{" "}
+                      {convertPeriodToDayPart(item.startTime, item.endTime)}
+                    </div>
+                  </div>
+                  <div className={s.right}>
+                    <button className={s.button} onClick={() => {}}>
+                      <MdOutlineEdit size={25} />
+                    </button>
+                    <button className={s.button}>
+                      <MdDeleteOutline size={25} />
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <div className={s.right}>
-                <button className={s.button} onClick={() => {}}>
-                  <MdOutlineEdit size={25} />
-                </button>
-                <button className={s.button}>
-                  <MdDeleteOutline size={25} />
-                </button>
-              </div>
-            </div>
-            <p className={s.description}>{item.description}</p>
-          </li>
-        ))}
-      </ul>
-    </section>
+                <p className={s.description}>{item.description}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <h2 className={s.empty}> Empty Date</h2>
+        )}
+      </section>
+    )
   );
 };
 

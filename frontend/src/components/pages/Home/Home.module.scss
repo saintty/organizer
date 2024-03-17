@@ -1,6 +1,10 @@
 @import "./../../../styles/breakpoints.scss";
 @import "./../../../styles/colors.scss";
 
+.root {
+  padding-bottom: 50px;
+}
+
 .title {
   padding: 46px 0;
   font-size: 40px;
