@@ -16,6 +16,7 @@ class UserJSONRenderer(JSONRenderer):
         # Если мы получим ключ token как часть ответа, это будет байтовый
         # объект. Байтовые объекты плохо сериализуются, поэтому нам нужно
         # декодировать их перед рендерингом объекта User.
+
         token = data.get('token', None)
 
         if errors is not None:

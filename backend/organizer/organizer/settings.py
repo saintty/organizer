@@ -38,9 +38,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    # 'corsheaders',
+
     'event',
+    'user',
+
     'drf_yasg',
     'authentication',
+    'rest_framework.authtoken',
+    'rest_framework_simplejwt',
+
     ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -136,3 +143,8 @@ REST_FRAMEWORK = {
     ),
 }
 
+SIMPLE_JWT = {
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': False,
+    'UPDATE_LAST_LOGIN': False,
+}
