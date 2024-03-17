@@ -14,6 +14,11 @@ import CreateModal from "./CreateModal";
 import { events } from "@stub/events";
 
 import s from "./Home.module.scss";
+import {
+  IApplicationContext,
+  useApplicationContext,
+} from "@context/ApplicationContext";
+import ConfirmModal from "./ConfirmModal/ConfirmModal";
 
 interface HomeProps {
   className?: string;
@@ -21,6 +26,8 @@ interface HomeProps {
 
 const Home: FC<HomeProps> = ({ className }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const { deleteLabel, setIsDeleteOpen } =
+    useApplicationContext() as IApplicationContext;
 
   const handleChooseDate = useCallback(
     (date: Date) => setSelectedDate(date),
@@ -47,6 +54,13 @@ const Home: FC<HomeProps> = ({ className }) => {
       </Container>
       <EditModal event={events[0]} />
       <CreateModal />
+      <ConfirmModal
+        label={deleteLabel.current}
+        acceptLabel="Remove"
+        cancelLabel="Cancel"
+        onAccept={() => console.log("accept")}
+        onCancel={() => setIsDeleteOpen(false)}
+      />
     </main>
   );
 };

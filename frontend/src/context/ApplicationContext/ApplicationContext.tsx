@@ -6,6 +6,8 @@ import {
   SetStateAction,
   PropsWithChildren,
   FC,
+  useRef,
+  MutableRefObject,
 } from "react";
 
 import { EPriority, IEvent } from "@type/event";
@@ -15,6 +17,9 @@ export interface IApplicationContext {
   setIsEditOpen: Dispatch<SetStateAction<boolean>>;
   isCreateOpen: boolean;
   setIsCreateOpen: Dispatch<SetStateAction<boolean>>;
+  isDeleteOpen: boolean;
+  setIsDeleteOpen: Dispatch<SetStateAction<boolean>>;
+  deleteLabel: MutableRefObject<string>;
   editedEvent: IEvent;
   setEditedEvent: Dispatch<SetStateAction<IEvent>>;
 }
@@ -32,6 +37,8 @@ const ApplicationContextProvider: FC<PropsWithChildren> = ({ children }) => {
   });
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
   const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState<boolean>(false);
+  const deleteLabel = useRef("");
 
   return (
     <ApplicationContext.Provider
@@ -42,6 +49,9 @@ const ApplicationContextProvider: FC<PropsWithChildren> = ({ children }) => {
         setIsCreateOpen,
         editedEvent,
         setEditedEvent,
+        isDeleteOpen,
+        setIsDeleteOpen,
+        deleteLabel,
       }}
     >
       {children}

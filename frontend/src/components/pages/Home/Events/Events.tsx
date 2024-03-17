@@ -23,8 +23,13 @@ interface EventsProps {
 }
 
 const Events: FC<EventsProps> = ({ className, date, items }) => {
-  const { setEditedEvent, setIsEditOpen, setIsCreateOpen } =
-    useApplicationContext() as IApplicationContext;
+  const {
+    setEditedEvent,
+    setIsEditOpen,
+    setIsCreateOpen,
+    deleteLabel,
+    setIsDeleteOpen,
+  } = useApplicationContext() as IApplicationContext;
 
   return (
     date && (
@@ -60,7 +65,13 @@ const Events: FC<EventsProps> = ({ className, date, items }) => {
                     >
                       <MdOutlineEdit size={25} />
                     </button>
-                    <button className={s.button}>
+                    <button
+                      className={s.button}
+                      onClick={() => {
+                        deleteLabel.current = `Remove event "${item.title}"?`;
+                        setIsDeleteOpen(true);
+                      }}
+                    >
                       <MdDeleteOutline size={25} />
                     </button>
                   </div>

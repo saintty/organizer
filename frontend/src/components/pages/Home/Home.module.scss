@@ -3,6 +3,10 @@
 
 .root {
   padding-bottom: 50px;
+
+  @include mobile {
+    padding-bottom: 10px;
+  }
 }
 
 .title {
