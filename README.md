@@ -4,55 +4,45 @@ api event
                                       'MEDIUM',
                                       'LOWER'
                                       
-По запросу api/v1/event ответ в виде json:
+По запросу api/v1/event/ ответ в виде json:
 
 [
     {
-        "id": <id>,
-        "user": {
-            "id": <id>,
-            "name": <name>,
-            "email": <email>
-        },
-        "title": "acasca",
-        "description": "acascasca",
-        "start_time": "2024-03-15T15:59:28Z",
-        "end_time": "2024-03-15T16:59:30Z",
-        "priority": "HIGH"
+        "id": <id_event>,
+        "title": "qdq",
+        "description": "qdqdwd",
+        "start_time": "2024-03-17T18:41:00Z",
+        "end_time": "2024-03-17T18:41:00Z",
+        "priority": "HIGH",
+        "user": <id_user>
     },
     {
-        "id": <id>,
-        "user": {
-            "id": <id>,
-            "name": <name>,
-            "email": <email>
-        },
-        "title": "ртоотт",
-        "description": "ог99оо",
-        "start_time": "2024-03-15T19:01:00Z",
-        "end_time": "2024-03-15T23:01:00Z",
-        "priority": "HIGH"
+        {
+        "id": <id_event>,
+        "title": "qdq",
+        "description": "qdqdwd",
+        "start_time": "2024-03-17T18:41:00Z",
+        "end_time": "2024-03-17T18:41:00Z",
+        "priority": "HIGH",
+        "user": <id_user>
+    },
     }
 ]
 
-Доступные методы: GET, POST(ttile, description, start_time, end_time, priority)
+Доступные методы: GET, POST(title, description, start_time, end_time, priority)
 
-По запросу api/v1/event/<id> ответ отельной записи в виде json:
+По запросу api/v1/event/<id>/ ответ отельной записи в виде json:
 
 {
-    "id": <id>,
-    "user": {
-        "id": <id>,
-        "name": <name>,
-        "email": <email>
-    },
-    "title": "acasca",
-    "description": "acascasca",
-    "start_time": "2024-03-15T15:59:28Z",
-    "end_time": "2024-03-15T16:59:30Z",
-    "priority": "HIGH"
+    "id": <event_id>,
+    "title": "qdq",
+    "description": "qdqdwd",
+    "start_time": "2024-03-17T18:41:00Z",
+    "end_time": "2024-03-17T18:41:00Z",
+    "priority": "HIGH",
+    "user": <user_id>
 }
 
-Доступные методы: GET, PUT, DELETE
+Доступные методы: GET, PUT, DELETE (Передается в Headers Token)
 
 
