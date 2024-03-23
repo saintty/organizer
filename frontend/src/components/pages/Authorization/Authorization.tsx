@@ -6,6 +6,7 @@ import Input from "@components/Input";
 import Form from "@components/Form";
 
 import s from "./Authorization.module.scss";
+import { Link } from "react-router-dom";
 
 interface AuthorizationPageProps {
   className?: string;
@@ -38,7 +39,20 @@ const AuthorizationPage: FC<AuthorizationPageProps> = ({ className }) => {
           onChange={handlePasswordChange}
           placeholder="Enter your password"
         />
-        <Button label="Login" onClick={() => console.log(email, password)} />
+        <div className={s.buttons}>
+          <Button
+            label="Login"
+            onClick={() => console.log(email, password)}
+            className={s.button}
+          />
+          <Link to="/register">
+            <Button
+              label="Register"
+              onClick={() => console.log(email, password)}
+              className={s.button}
+            />
+          </Link>
+        </div>
       </Form>
     </section>
   );

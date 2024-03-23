@@ -27,7 +27,8 @@
       "@type/*": ["src/types/*"],
       "@stub/*": ["src/stub/*"],
       "@utils/*": ["src/utils/*"],
-      "@context/*": ["src/context/*"]
+      "@context/*": ["src/context/*"],
+      "@api/*": ["src/api/*"]
     }
   },
   "include": ["src"],

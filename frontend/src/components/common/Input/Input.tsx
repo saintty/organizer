@@ -1,34 +1,49 @@
-import { ChangeEvent, FC, HTMLInputTypeAttribute } from "react";
+import { HTMLInputTypeAttribute } from "react";
 import cx from "classnames";
 
 import s from "./Input.module.scss";
+import {
+  DeepMap,
+  FieldError,
+  FieldValues,
+  Path,
+  RegisterOptions,
+  UseFormRegister,
+} from "react-hook-form";
 
-interface InputProps {
+interface InputProps<T extends FieldValues> {
   className?: string;
-  value: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   type?: HTMLInputTypeAttribute;
-  name?: string;
+  name: Path<T>;
+  rules?: RegisterOptions;
+  register?: UseFormRegister<T>;
+  errors?: Partial<DeepMap<T, FieldError>>;
 }
 
-const Input: FC<InputProps> = ({
+const Input = <T extends FieldValues>({
   className,
-  value,
-  onChange,
   placeholder = "",
   type,
   name,
-}) => {
+  errors,
+  register,
+  rules,
+}: InputProps<T>) => {
   return (
-    <input
-      className={cx(s.root, className)}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      type={type}
-      name={name}
-    />
+    <div className={s.wrapper}>
+      <input
+        {...(register && register(name, rules))}
+        className={cx(s.root, className, {
+          [s.invalid]: errors && errors[name]?.message,
+        })}
+        placeholder={placeholder}
+        type={type}
+      />
+      {errors && errors[name]?.message && (
+        <span className={s.error}>{errors[name]?.message}</span>
+      )}
+    </div>
   );
 };
 
