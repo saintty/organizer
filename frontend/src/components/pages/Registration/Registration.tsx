@@ -1,5 +1,5 @@
 import { FC, useCallback, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import cx from "classnames";
 import { useForm, SubmitHandler } from "react-hook-form";
 
@@ -51,6 +51,7 @@ const RegistrationPage: FC<RegistrationPageProps> = ({ className }) => {
           });
 
           setIsRequestOk(true);
+          setRequestResultMessage("Success register");
           setTimeout(() => {
             navigate("/"), setIsDisable(false);
           }, 1500);
@@ -120,17 +121,26 @@ const RegistrationPage: FC<RegistrationPageProps> = ({ className }) => {
             required: "Required field",
           }}
         />
-        <Button
-          label="Register"
-          type="submit"
-          className={s.link}
-          disabled={isDisable}
-        />
-        {requestResultMessage && (
-          <p className={cx(s.message, { [s.error]: !isRequestOk })}>
-            {requestResultMessage}
-          </p>
-        )}
+        <div className={s.buttons}>
+          <Link to="/auth">
+            <Button
+              label="To Login"
+              className={s.button}
+              disabled={isDisable}
+            />
+          </Link>
+          <Button
+            label="Register"
+            type="submit"
+            className={s.link}
+            disabled={isDisable}
+          />
+          {requestResultMessage && (
+            <p className={cx(s.message, { [s.error]: !isRequestOk })}>
+              {requestResultMessage}
+            </p>
+          )}
+        </div>
       </Form>
     </section>
   );

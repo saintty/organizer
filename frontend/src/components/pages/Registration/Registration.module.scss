@@ -25,3 +25,24 @@
 .error {
   color: red;
 }
+
+.buttons {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  & > * {
+    width: 100%;
+  }
+
+  @include mobile {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.button {
+  width: 100%;
+}
