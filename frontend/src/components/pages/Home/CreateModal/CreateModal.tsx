@@ -1,7 +1,7 @@
-import { FC, useCallback, useState } from "react";
+import { Dispatch, FC, SetStateAction, useCallback, useState } from "react";
 import cx from "classnames";
 
-import { EPriority, IEvent } from "@type/event";
+import { EPriority } from "@type/event";
 
 import {
   IApplicationContext,
@@ -21,15 +21,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 interface CreateModalProps {
   className?: string;
+  setNeedFetch: Dispatch<SetStateAction<boolean>>;
 }
-
-const emptyEvent: Omit<IEvent, "id"> = {
-  title: "",
-  description: "",
-  startTime: "",
-  endTime: "",
-  priority: EPriority.medium,
-};
 
 type Inputs = {
   title: string;
@@ -39,12 +32,9 @@ type Inputs = {
   priority: EPriority;
 };
 
-const CreateModal: FC<CreateModalProps> = ({ className }) => {
+const CreateModal: FC<CreateModalProps> = ({ className, setNeedFetch }) => {
   const { isCreateOpen, setIsCreateOpen } =
     useApplicationContext() as IApplicationContext;
-  const [newEvent, setNewEvent] = useState<Omit<IEvent, "id">>({
-    ...emptyEvent,
-  });
   const [message, setMessage] = useState<string>("");
   const [isError, setIsError] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
@@ -58,23 +48,25 @@ const CreateModal: FC<CreateModalProps> = ({ className }) => {
 
   const onSubmit: SubmitHandler<Inputs> = useCallback(
     async (data) => {
+      setIsDisabled(true);
       try {
         await createEvent(data);
-        setMessage("Something went wrong");
+        setMessage("Success create");
         setIsError(false);
+        setNeedFetch(true);
 
         setTimeout(() => {
-          setNewEvent({ ...emptyEvent });
           setIsCreateOpen(false);
+          setIsDisabled(false);
+
+          setMessage("");
         }, 1500);
       } catch (e) {
         setMessage("Something went wrong");
         setIsError(true);
-      } finally {
-        setIsDisabled(false);
       }
     },
-    [setIsCreateOpen]
+    [setIsCreateOpen, setNeedFetch]
   );
 
   return (

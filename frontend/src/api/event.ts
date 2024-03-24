@@ -44,3 +44,43 @@ export const createEvent = ({
     }
   );
 };
+
+export type EditEventData = {
+  id: number;
+  title: string;
+  description: string;
+  startTime: string;
+  endTime: string;
+  priority: EPriority;
+};
+export const editEvent = ({
+  id,
+  title,
+  description,
+  priority,
+  startTime,
+  endTime,
+}: EditEventData) => {
+  return instance.put(
+    `event/${id}/`,
+    {
+      title,
+      description,
+      priority,
+      start_time: startTime,
+      end_time: endTime,
+      user: Number(getId()),
+    },
+    {
+      headers: {
+        Authorization: `Token ${getToken()}`,
+      },
+    }
+  );
+};
+
+export const deleteEvent = (id: number) => {
+  return instance.delete(`event/${id}/`, {
+    headers: { Authorization: `Token ${getToken()}` },
+  });
+};

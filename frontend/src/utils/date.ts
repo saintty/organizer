@@ -5,7 +5,7 @@ const secondsUntilDayEnds = (date: Date): number => {
 const convertDayToDayTime = (date: Date, multiday: boolean = false): string => {
   const expand = (num: number): string => num.toString().padStart(2, "0");
 
-  return `${expand(date.getHours())}:${expand(date.getMinutes())}${
+  return `${expand(date.getUTCHours())}:${expand(date.getUTCMinutes())}${
     multiday
       ? " (" +
         date.toLocaleString("en", {

@@ -17,7 +17,7 @@ import {
   useApplicationContext,
 } from "@context/ApplicationContext";
 import ConfirmModal from "./ConfirmModal/ConfirmModal";
-import { getEvents } from "@api/event";
+import { deleteEvent, getEvents } from "@api/event";
 import { clearUserData } from "@utils/token";
 import { useNavigate } from "react-router-dom";
 import { normalize } from "@utils/event";
@@ -28,9 +28,15 @@ interface HomeProps {
 
 const Home: FC<HomeProps> = ({ className }) => {
   const [events, setEvents] = useState<IEvent[]>([]);
+  const [needFetch, setNeedFetch] = useState<boolean>(true);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const { deleteLabel, setIsDeleteOpen } =
+  const [message, setMessage] = useState<string>("");
+  const [isError, setIsError] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
+
+  const { deleteLabel, setIsDeleteOpen, deleteId } =
     useApplicationContext() as IApplicationContext;
+
   const navigate = useNavigate();
 
   const handleChooseDate = useCallback(
@@ -39,25 +45,28 @@ const Home: FC<HomeProps> = ({ className }) => {
   );
 
   useEffect(() => {
-    const fetchEvent = async () => {
-      try {
-        const response = await getEvents();
+    if (needFetch) {
+      const fetchEvent = async () => {
+        try {
+          const response = await getEvents();
 
-        setEvents(response.data.map(normalize));
-      } catch (e) {
-        const errorMessage = e.response.data.detail;
+          setEvents(response.data.map(normalize));
+          setNeedFetch(false);
+        } catch (e) {
+          const errorMessage = e.response.data.detail;
 
-        if (
-          errorMessage === "Authentication error. The token cannot be decoded"
-        ) {
-          clearUserData();
-          navigate("/");
+          if (
+            errorMessage === "Authentication error. The token cannot be decoded"
+          ) {
+            clearUserData();
+            navigate("/");
+          }
         }
-      }
-    };
+      };
 
-    fetchEvent();
-  }, [navigate]);
+      fetchEvent();
+    }
+  }, [navigate, needFetch, setNeedFetch]);
 
   const eventsList = useMemo<TEventMap>(() => eventsByDate(events), [events]);
   const eventListByDate = useMemo<IEvent[]>(() => {
@@ -65,6 +74,27 @@ const Home: FC<HomeProps> = ({ className }) => {
 
     return eventsList[createDateKey(selectedDate)] || [];
   }, [selectedDate, eventsList]);
+
+  const handleDelete = useCallback(async () => {
+    setIsDisabled(true);
+    try {
+      await deleteEvent(deleteId);
+
+      setMessage("Success delete");
+      setIsError(false);
+      setNeedFetch(true);
+
+      setTimeout(() => {
+        setIsDeleteOpen(false);
+        setIsDisabled(false);
+
+        setMessage("");
+      }, 1500);
+    } catch (e) {
+      setMessage("Something went wrong");
+      setIsError(true);
+    }
+  }, [deleteId, setIsDeleteOpen]);
 
   return (
     <main className={cx(s.root, className)}>
@@ -77,15 +107,19 @@ const Home: FC<HomeProps> = ({ className }) => {
           className={s.events}
         />
       </Container>
-      <CreateModal />
-      {/* <EditModal event={events[0]} />
+      <CreateModal setNeedFetch={setNeedFetch} />
+      <EditModal setNeedFetch={setNeedFetch} />
+
       <ConfirmModal
         label={deleteLabel.current}
         acceptLabel="Remove"
         cancelLabel="Cancel"
-        onAccept={() => console.log("accept")}
+        onAccept={handleDelete}
         onCancel={() => setIsDeleteOpen(false)}
-      /> */}
+        isDisabled={isDisabled}
+        message={message}
+        isError={isError}
+      />
     </main>
   );
 };

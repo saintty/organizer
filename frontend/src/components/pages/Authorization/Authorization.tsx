@@ -46,7 +46,8 @@ const AuthorizationPage: FC<AuthorizationPageProps> = ({ className }) => {
         setIsRequestOk(true);
         setRequestResultMessage("Welcome!");
         setTimeout(() => {
-          navigate("/"), setIsDisable(false);
+          navigate("/");
+          setIsDisable(false);
         }, 1500);
       } catch (e) {
         setIsRequestOk(false);

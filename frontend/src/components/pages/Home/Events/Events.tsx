@@ -29,6 +29,7 @@ const Events: FC<EventsProps> = ({ className, date, items }) => {
     setIsCreateOpen,
     deleteLabel,
     setIsDeleteOpen,
+    setDeleteId,
   } = useApplicationContext() as IApplicationContext;
 
   return (
@@ -70,6 +71,7 @@ const Events: FC<EventsProps> = ({ className, date, items }) => {
                       onClick={() => {
                         deleteLabel.current = `Remove event "${item.title}"?`;
                         setIsDeleteOpen(true);
+                        setDeleteId(item.id);
                       }}
                     >
                       <MdDeleteOutline size={25} />
