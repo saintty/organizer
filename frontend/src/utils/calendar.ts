@@ -47,9 +47,7 @@ export const getCalendarByMonth = (
   return calendar;
 };
 
-export const createDateKey = (time: string): string => {
-  const date = new Date(time);
-
+export const createDateKey = (date: Date): string => {
   const keyOptions: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "long",
@@ -61,17 +59,16 @@ export const createDateKey = (time: string): string => {
 
 export const eventsByDate = (events: IEvent[]): TEventMap =>
   events.reduce((map: TEventMap, event: IEvent): TEventMap => {
-    const startKey = createDateKey(event.startTime);
-    const endKey = createDateKey(event.startTime);
+    const startDay: Date = new Date(event.startTime);
+    const lastDay: Date = new Date(event.endTime);
 
-    if (map[startKey]) map[startKey].push(event);
-    else map[startKey] = [event];
+    while (startDay <= lastDay) {
+      const key: string = createDateKey(startDay);
+      if (map[key]) map[key].push(event);
+      else map[key] = [event];
 
-    if (startKey === endKey) return map;
-
-    if (map[endKey]) map[endKey].push(event);
-    else map[endKey] = [event];
-
+      startDay.setDate(startDay.getDate() + 1);
+    }
     return map;
   }, {});
 
@@ -95,7 +92,7 @@ export const joinCalendarWithEvents = (
         continue;
       }
 
-      const calendarDateKey = createDateKey(calendar[i][j]!.toISOString());
+      const calendarDateKey = createDateKey(calendar[i][j]!);
       resultCalendar[i][j] = {
         date: calendar[i][j]!,
         events: [],

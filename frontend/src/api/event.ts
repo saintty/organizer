@@ -1,12 +1,12 @@
 import { getId, getToken } from "@utils/token";
 import { instance } from "./instance";
-import { EPriority, IEvent } from "@type/event";
+import { ApiEvent, EPriority } from "@type/event";
 
 export type EventsResponse = {
   events: [];
 };
 export const getEvents = () => {
-  return instance.get<(IEvent & { user: number })[]>("event/", {
+  return instance.get<ApiEvent[]>("event/", {
     headers: {
       Authorization: `Token ${getToken()}`,
     },

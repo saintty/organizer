@@ -20,6 +20,7 @@ import ConfirmModal from "./ConfirmModal/ConfirmModal";
 import { getEvents } from "@api/event";
 import { clearUserData } from "@utils/token";
 import { useNavigate } from "react-router-dom";
+import { normalize } from "@utils/event";
 
 interface HomeProps {
   className?: string;
@@ -42,7 +43,7 @@ const Home: FC<HomeProps> = ({ className }) => {
       try {
         const response = await getEvents();
 
-        setEvents(response.data);
+        setEvents(response.data.map(normalize));
       } catch (e) {
         const errorMessage = e.response.data.detail;
 
@@ -57,13 +58,12 @@ const Home: FC<HomeProps> = ({ className }) => {
 
     fetchEvent();
   }, [navigate]);
-  console.log(events);
 
   const eventsList = useMemo<TEventMap>(() => eventsByDate(events), [events]);
   const eventListByDate = useMemo<IEvent[]>(() => {
     if (!selectedDate) return [];
 
-    return eventsList[createDateKey(selectedDate.toISOString())] || [];
+    return eventsList[createDateKey(selectedDate)] || [];
   }, [selectedDate, eventsList]);
 
   return (
