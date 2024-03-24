@@ -69,10 +69,13 @@ const Calendar: FC<CalendarProps> = ({ className, onClick, events }) => {
       <div className={s.buttons}>
         <Button className={s.toggleMonth} label="Prev" onClick={handlePrev} />
         <p className={s.month}>
-          {new Date(yearNow.current, monthShift, 0).toLocaleDateString("en", {
-            year: "numeric",
-            month: "long",
-          })}
+          {new Date(yearNow.current, monthShift + 1, 0).toLocaleDateString(
+            "en",
+            {
+              year: "numeric",
+              month: "long",
+            }
+          )}
         </p>
         <Button className={s.toggleMonth} label="Next" onClick={handleNext} />
       </div>
