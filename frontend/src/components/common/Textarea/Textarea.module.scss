@@ -47,6 +47,11 @@
   &.invalid {
     border: 2px solid red;
     padding: 8px 20px;
+
+    @include tablet {
+      border: 1px solid red;
+      padding: 4px 10px;
+    }
   }
 }
 

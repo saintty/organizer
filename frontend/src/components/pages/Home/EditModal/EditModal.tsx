@@ -50,7 +50,7 @@ const EditModal: FC<EditModalProps> = ({ className, setNeedFetch }) => {
     register,
     handleSubmit,
     setValue,
-    getValues,
+    watch,
     formState: { errors },
   } = useForm<Inputs>();
 
@@ -60,7 +60,7 @@ const EditModal: FC<EditModalProps> = ({ className, setNeedFetch }) => {
     setValue("priority", editedEvent.priority);
     setValue("startTime", editedEvent.startTime.substring(0, 16));
     setValue("endTime", editedEvent.endTime.substring(0, 16));
-  }, [editedEvent, setValue, getValues]);
+  }, [editedEvent, setValue]);
 
   const onSubmit: SubmitHandler<Inputs> = useCallback(
     async (data) => {
@@ -116,7 +116,13 @@ const EditModal: FC<EditModalProps> = ({ className, setNeedFetch }) => {
                 name="startTime"
                 register={register}
                 errors={errors}
-                rules={{ required: "Required field" }}
+                rules={{
+                  required: "Required field",
+                  max: {
+                    value: watch("endTime"),
+                    message: "Should be less then end-time",
+                  },
+                }}
               />
             </div>
             <div className={s.date}>

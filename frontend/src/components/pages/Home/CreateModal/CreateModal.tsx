@@ -43,6 +43,7 @@ const CreateModal: FC<CreateModalProps> = ({ className, setNeedFetch }) => {
     register,
     handleSubmit,
     clearErrors,
+    watch,
     formState: { errors },
   } = useForm<Inputs>();
 
@@ -105,7 +106,13 @@ const CreateModal: FC<CreateModalProps> = ({ className, setNeedFetch }) => {
                 name="startTime"
                 register={register}
                 errors={errors}
-                rules={{ required: "Required field" }}
+                rules={{
+                  required: "Required field",
+                  max: {
+                    value: watch("endTime"),
+                    message: "Should be less then end-time",
+                  },
+                }}
               />
             </div>
             <div className={s.date}>
@@ -116,7 +123,9 @@ const CreateModal: FC<CreateModalProps> = ({ className, setNeedFetch }) => {
                 name="endTime"
                 register={register}
                 errors={errors}
-                rules={{ required: "Required field" }}
+                rules={{
+                  required: "Required field",
+                }}
               />
             </div>
           </div>
