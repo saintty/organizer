@@ -1,48 +1,51 @@
-import { ChangeEvent, FC } from "react";
 import cx from "classnames";
 
 import s from "./Radio.module.scss";
+import {
+  DeepMap,
+  FieldError,
+  FieldValues,
+  Path,
+  RegisterOptions,
+  UseFormRegister,
+} from "react-hook-form";
 import { EPriority } from "@type/event";
 
-interface RadioProps {
+interface RadioProps<T extends FieldValues> {
   className?: string;
   id: string;
-  value: EPriority;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onClick: (value: EPriority) => void;
-  name?: string;
   label: string;
-  checked?: boolean;
-  defaultChecked?: boolean;
+  value: EPriority;
+  name: Path<T>;
+  rules?: RegisterOptions;
+  register?: UseFormRegister<T>;
+  errors?: Partial<DeepMap<T, FieldError>>;
 }
 
-const Radio: FC<RadioProps> = ({
+const Radio = <T extends FieldValues>({
   id,
   className,
-  value,
-  onChange,
-  onClick,
   name,
+  value,
   label,
-  checked,
-}) => {
+  errors,
+  register,
+  rules,
+}: RadioProps<T>) => {
   return (
     <div className={cx(s.root, className)}>
       <input
         id={id}
         className={s.input}
-        value={value}
         type="radio"
-        name={name}
-        onChange={onChange}
-        checked={checked}
+        value={value}
+        {...(register && register(name, rules))}
       />
       <label
-        className={s.label}
+        className={cx(s.label, {
+          [s.invalid]: errors && errors[name]?.message,
+        })}
         htmlFor={id}
-        onClick={() => {
-          onClick(value);
-        }}
       >
         {label}
       </label>

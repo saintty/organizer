@@ -36,7 +36,7 @@ export const authUser = ({
   email,
   password,
 }: AuthorizationData): Promise<AxiosResponse<AuthorizationResponse>> => {
-  return instance.post("login/", {
+  return instance.post<AuthorizationResponse>("login/", {
     user: {
       email,
       password,

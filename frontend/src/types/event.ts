@@ -1,7 +1,7 @@
 export enum EPriority {
-  high = "High",
-  medium = "Medium",
-  low = "Low",
+  high = "HIGH",
+  medium = "MEDIUM",
+  low = "LOW",
 }
 
 export interface IEvent {

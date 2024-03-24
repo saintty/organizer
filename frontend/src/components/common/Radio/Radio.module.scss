@@ -38,6 +38,10 @@
     border-radius: 50%;
     border: 2px solid #9ab3d3;
   }
+
+  &.invalid::before {
+    border: 2px solid red;
+  }
 }
 
 .input:checked + .label::after {

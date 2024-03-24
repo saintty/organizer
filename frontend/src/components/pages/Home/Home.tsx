@@ -1,4 +1,4 @@
-import { FC, useCallback, useMemo, useState } from "react";
+import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import cx from "classnames";
 
 import { IEvent, TEventMap } from "@type/event";
@@ -11,30 +11,55 @@ import Calendar from "./Calendar";
 import EditModal from "./EditModal";
 import CreateModal from "./CreateModal";
 
-import { events } from "@stub/events";
-
 import s from "./Home.module.scss";
 import {
   IApplicationContext,
   useApplicationContext,
 } from "@context/ApplicationContext";
 import ConfirmModal from "./ConfirmModal/ConfirmModal";
+import { getEvents } from "@api/event";
+import { clearUserData } from "@utils/token";
+import { useNavigate } from "react-router-dom";
 
 interface HomeProps {
   className?: string;
 }
 
 const Home: FC<HomeProps> = ({ className }) => {
+  const [events, setEvents] = useState<IEvent[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const { deleteLabel, setIsDeleteOpen } =
     useApplicationContext() as IApplicationContext;
+  const navigate = useNavigate();
 
   const handleChooseDate = useCallback(
     (date: Date) => setSelectedDate(date),
     []
   );
 
-  const eventsList = useMemo<TEventMap>(() => eventsByDate(events), []);
+  useEffect(() => {
+    const fetchEvent = async () => {
+      try {
+        const response = await getEvents();
+
+        setEvents(response.data);
+      } catch (e) {
+        const errorMessage = e.response.data.detail;
+
+        if (
+          errorMessage === "Authentication error. The token cannot be decoded"
+        ) {
+          clearUserData();
+          navigate("/");
+        }
+      }
+    };
+
+    fetchEvent();
+  }, [navigate]);
+  console.log(events);
+
+  const eventsList = useMemo<TEventMap>(() => eventsByDate(events), [events]);
   const eventListByDate = useMemo<IEvent[]>(() => {
     if (!selectedDate) return [];
 
@@ -52,15 +77,15 @@ const Home: FC<HomeProps> = ({ className }) => {
           className={s.events}
         />
       </Container>
-      <EditModal event={events[0]} />
       <CreateModal />
+      {/* <EditModal event={events[0]} />
       <ConfirmModal
         label={deleteLabel.current}
         acceptLabel="Remove"
         cancelLabel="Cancel"
         onAccept={() => console.log("accept")}
         onCancel={() => setIsDeleteOpen(false)}
-      />
+      /> */}
     </main>
   );
 };
