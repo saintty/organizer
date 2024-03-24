@@ -1,26 +1,29 @@
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import cx from "classnames";
+import { useNavigate } from "react-router-dom";
 
 import { IEvent, TEventMap } from "@type/event";
 
+import { deleteEvent, getEvents } from "@api/event";
 import { createDateKey, eventsByDate } from "@utils/calendar";
+import { clearUserData } from "@utils/token";
+import { normalize } from "@utils/event";
+
+import {
+  IApplicationContext,
+  useApplicationContext,
+} from "@context/ApplicationContext";
 
 import Container from "@components/Container";
 import Events from "./Events";
 import Calendar from "./Calendar";
 import EditModal from "./EditModal";
 import CreateModal from "./CreateModal";
+import ConfirmModal from "./ConfirmModal";
+import Logout from "@components/Logout";
 
 import s from "./Home.module.scss";
-import {
-  IApplicationContext,
-  useApplicationContext,
-} from "@context/ApplicationContext";
-import ConfirmModal from "./ConfirmModal/ConfirmModal";
-import { deleteEvent, getEvents } from "@api/event";
-import { clearUserData } from "@utils/token";
-import { useNavigate } from "react-router-dom";
-import { normalize } from "@utils/event";
+import { AxiosError } from "axios";
 
 interface HomeProps {
   className?: string;
@@ -52,14 +55,17 @@ const Home: FC<HomeProps> = ({ className }) => {
 
           setEvents(response.data.map(normalize));
           setNeedFetch(false);
-        } catch (e) {
-          const errorMessage = e.response.data.detail;
+        } catch (e: unknown) {
+          if (e instanceof AxiosError) {
+            const errorMessage = e.response?.data.detail;
 
-          if (
-            errorMessage === "Authentication error. The token cannot be decoded"
-          ) {
-            clearUserData();
-            navigate("/");
+            if (
+              errorMessage ===
+              "Authentication error. The token cannot be decoded"
+            ) {
+              clearUserData();
+              navigate("/");
+            }
           }
         }
       };
@@ -98,6 +104,7 @@ const Home: FC<HomeProps> = ({ className }) => {
 
   return (
     <main className={cx(s.root, className)}>
+      <Logout />
       <Container className={s.container}>
         <h1 className={s.title}>Organizer</h1>
         <Calendar onClick={handleChooseDate} events={eventsByDate(events)} />

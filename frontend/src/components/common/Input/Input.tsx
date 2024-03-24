@@ -1,7 +1,5 @@
 import { HTMLInputTypeAttribute } from "react";
 import cx from "classnames";
-
-import s from "./Input.module.scss";
 import {
   DeepMap,
   FieldError,
@@ -10,6 +8,8 @@ import {
   RegisterOptions,
   UseFormRegister,
 } from "react-hook-form";
+
+import s from "./Input.module.scss";
 
 interface InputProps<T extends FieldValues> {
   className?: string;

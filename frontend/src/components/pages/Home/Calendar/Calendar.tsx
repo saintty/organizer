@@ -6,13 +6,14 @@ import { TEventMap } from "@type/event";
 
 import { joinCalendarWithEvents, withHightPriority } from "@utils/calendar";
 
-import Button from "@components/Button";
-
-import s from "./Calendar.module.scss";
 import {
   IApplicationContext,
   useApplicationContext,
 } from "@context/ApplicationContext";
+
+import Button from "@components/Button";
+
+import s from "./Calendar.module.scss";
 
 interface CalendarProps {
   className?: string;

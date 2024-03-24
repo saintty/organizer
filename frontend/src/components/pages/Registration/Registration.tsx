@@ -3,12 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import cx from "classnames";
 import { useForm, SubmitHandler } from "react-hook-form";
 
+import { regUser } from "@api/user";
+
 import Button from "@components/Button";
 import Input from "@components/Input";
 import Form from "@components/Form";
 
 import s from "./Registration.module.scss";
-import { regUser } from "@api/user";
 
 interface RegistrationPageProps {
   className?: string;

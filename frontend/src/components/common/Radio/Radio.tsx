@@ -1,6 +1,4 @@
 import cx from "classnames";
-
-import s from "./Radio.module.scss";
 import {
   DeepMap,
   FieldError,
@@ -9,7 +7,10 @@ import {
   RegisterOptions,
   UseFormRegister,
 } from "react-hook-form";
+
 import { EPriority } from "@type/event";
+
+import s from "./Radio.module.scss";
 
 interface RadioProps<T extends FieldValues> {
   className?: string;

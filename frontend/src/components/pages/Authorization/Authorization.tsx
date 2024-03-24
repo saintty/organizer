@@ -1,15 +1,16 @@
 import { FC, useCallback, useState } from "react";
 import cx from "classnames";
+import { Link, useNavigate } from "react-router-dom";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+import { authUser } from "@api/user";
+import { setToken } from "@utils/token";
 
 import Button from "@components/Button";
 import Input from "@components/Input";
 import Form from "@components/Form";
 
 import s from "./Authorization.module.scss";
-import { Link, useNavigate } from "react-router-dom";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { authUser } from "@api/user";
-import { setToken } from "@utils/token";
 
 interface AuthorizationPageProps {
   className?: string;

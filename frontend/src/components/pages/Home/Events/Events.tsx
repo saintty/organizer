@@ -5,14 +5,12 @@ import { IEvent } from "@type/event";
 
 import { convertPeriodToDayPart, convertTimeMonthPart } from "@utils/date";
 
-import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
-
 import {
   IApplicationContext,
   useApplicationContext,
 } from "@context/ApplicationContext";
 
-import Button from "@components/Button";
+import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
 
 import s from "./Events.module.scss";
 

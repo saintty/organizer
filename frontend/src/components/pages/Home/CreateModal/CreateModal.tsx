@@ -1,5 +1,6 @@
 import { Dispatch, FC, SetStateAction, useCallback, useState } from "react";
 import cx from "classnames";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 import { EPriority } from "@type/event";
 
@@ -8,16 +9,15 @@ import {
   useApplicationContext,
 } from "@context/ApplicationContext";
 
+import { createEvent } from "@api/event";
+
 import Modal from "@components/Modal";
 import Input from "@components/Input";
 import Button from "@components/Button";
 import Textarea from "@components/Textarea";
 import Radio from "@components/Radio";
 
-import { createEvent } from "@api/event";
-
 import s from "./CreateModal.module.scss";
-import { SubmitHandler, useForm } from "react-hook-form";
 
 interface CreateModalProps {
   className?: string;
