@@ -5,6 +5,7 @@
   padding: 20px;
   border-radius: 20px;
   background-color: $white;
+  text-align: center;
 
   @include tablet {
     padding: 10px;
@@ -145,4 +146,8 @@
   @include tabletL {
     display: none;
   }
+}
+
+.button {
+  margin-top: 20px;
 }

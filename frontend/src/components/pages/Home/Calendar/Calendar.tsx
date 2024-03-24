@@ -9,6 +9,10 @@ import { joinCalendarWithEvents, withHightPriority } from "@utils/calendar";
 import Button from "@components/Button";
 
 import s from "./Calendar.module.scss";
+import {
+  IApplicationContext,
+  useApplicationContext,
+} from "@context/ApplicationContext";
 
 interface CalendarProps {
   className?: string;
@@ -17,6 +21,8 @@ interface CalendarProps {
 }
 
 const Calendar: FC<CalendarProps> = ({ className, onClick, events }) => {
+  const { setIsCreateOpen } = useApplicationContext() as IApplicationContext;
+
   const yearNow: MutableRefObject<number> = useRef<number>(
     new Date().getFullYear()
   );
@@ -63,6 +69,7 @@ const Calendar: FC<CalendarProps> = ({ className, onClick, events }) => {
 
   const handleNext = useCallback(() => setMonthShift((prev) => prev + 1), []);
   const handlePrev = useCallback(() => setMonthShift((prev) => prev - 1), []);
+  const handleNew = useCallback(() => setIsCreateOpen(true), [setIsCreateOpen]);
 
   return (
     <div className={cx(s.root, className)}>
@@ -80,6 +87,7 @@ const Calendar: FC<CalendarProps> = ({ className, onClick, events }) => {
         <Button className={s.toggleMonth} label="Next" onClick={handleNext} />
       </div>
       <ul className={s.calendar}>{calendar.map(renderWeek)}</ul>
+      <Button className={s.button} label="New event" onClick={handleNew} />
     </div>
   );
 };

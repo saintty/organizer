@@ -26,7 +26,6 @@ const Events: FC<EventsProps> = ({ className, date, items }) => {
   const {
     setEditedEvent,
     setIsEditOpen,
-    setIsCreateOpen,
     deleteLabel,
     setIsDeleteOpen,
     setDeleteId,
@@ -37,7 +36,6 @@ const Events: FC<EventsProps> = ({ className, date, items }) => {
       <section className={cx(s.root, className)}>
         <div className={s.header}>
           <h2 className={s.title}>{date && convertTimeMonthPart(date)}</h2>
-          <Button label="New event" onClick={() => setIsCreateOpen(true)} />
         </div>
         {items.length > 0 ? (
           <ul className={s.list}>
