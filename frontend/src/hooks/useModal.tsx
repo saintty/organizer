@@ -4,8 +4,6 @@ const useModal = () => {
   const paddingOffset: string =
     window.innerWidth - document.body.offsetWidth + "px";
 
-  console.log(paddingOffset);
-
   const enableScroll = useCallback(() => {
     document.body.style.overflowY = "";
     document.body.style.paddingRight = "";
