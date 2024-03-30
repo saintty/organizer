@@ -58,6 +58,10 @@
   @include tablet {
     gap: 10px;
   }
+
+  @include mobile {
+    flex-wrap: wrap;
+  }
 }
 
 .button {
@@ -74,8 +78,17 @@
 }
 
 .error {
+  position: absolute;
+  left: 10px;
+  right: 0;
+  bottom: -20px;
   font-size: 14px;
   line-height: 16px;
   color: red;
   font-style: italic;
+
+  @include mobile {
+    position: static;
+    width: 100%;
+  }
 }

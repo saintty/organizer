@@ -18,13 +18,22 @@ const Conflicts: FC<ConflictsProps> = ({ items }) => {
       <ul className={s.list}>
         {items.map((item) => (
           <li className={s.item}>
-            <span className={s.title}>{item.title}</span>
-            <span className={s.priority}>{item.priority}</span>
-            <span className={s.time}>{`${convertDayToDayTime(
-              new Date(item.startTime),
-              true,
-              true
-            )} - ${convertDayToDayTime(new Date(item.endTime), true)}`}</span>
+            <span className={s.title}>
+              <span className={s.hint}>Title</span>
+              {item.title}
+            </span>
+            <span className={s.priority}>
+              <span className={s.hint}>Priority</span>
+              {item.priority}
+            </span>
+            <span className={s.time}>
+              <span className={s.hint}>Time</span>
+              {`${convertDayToDayTime(
+                new Date(item.startTime),
+                true,
+                true
+              )} - ${convertDayToDayTime(new Date(item.endTime), true)}`}
+            </span>
           </li>
         ))}
       </ul>
