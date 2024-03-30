@@ -8,6 +8,7 @@ import {
 } from "react";
 import cx from "classnames";
 import { SubmitHandler, useForm } from "react-hook-form";
+import axios from "axios";
 
 import { ApiEvent, EPriority, IEvent } from "@type/event";
 
@@ -15,6 +16,7 @@ import {
   IApplicationContext,
   useApplicationContext,
 } from "@context/ApplicationContext";
+import { normalize } from "@utils/event";
 
 import { createEvent } from "@api/event";
 
@@ -25,8 +27,7 @@ import Textarea from "@components/Textarea";
 import Radio from "@components/Radio";
 
 import s from "./CreateModal.module.scss";
-import axios from "axios";
-import { normalize } from "@utils/event";
+
 import Conflicts from "../Conflicts";
 
 interface CreateModalProps {

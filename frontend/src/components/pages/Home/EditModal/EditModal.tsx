@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import cx from "classnames";
+import axios from "axios";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { ApiEvent, EPriority, IEvent } from "@type/event";
@@ -15,6 +16,7 @@ import {
   IApplicationContext,
   useApplicationContext,
 } from "@context/ApplicationContext";
+import { normalize } from "@utils/event";
 
 import { editEvent } from "@api/event";
 
@@ -26,8 +28,6 @@ import Radio from "@components/Radio";
 
 import s from "./EditModal.module.scss";
 import Conflicts from "../Conflicts/Conflicts";
-import axios from "axios";
-import { normalize } from "@utils/event";
 
 interface EditModalProps {
   className?: string;

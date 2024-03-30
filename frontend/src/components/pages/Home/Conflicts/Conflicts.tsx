@@ -17,7 +17,7 @@ const Conflicts: FC<ConflictsProps> = ({ items }) => {
       </div>
       <ul className={s.list}>
         {items.map((item) => (
-          <li className={s.item}>
+          <li className={s.item} key={item.id}>
             <span className={s.title}>
               <span className={s.hint}>Title</span>
               {item.title}
