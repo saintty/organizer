@@ -1,8 +1,15 @@
-import { Dispatch, FC, SetStateAction, useCallback, useState } from "react";
+import {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import cx from "classnames";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { EPriority } from "@type/event";
+import { ApiEvent, EPriority, IEvent } from "@type/event";
 
 import {
   IApplicationContext,
@@ -18,6 +25,9 @@ import Textarea from "@components/Textarea";
 import Radio from "@components/Radio";
 
 import s from "./CreateModal.module.scss";
+import axios from "axios";
+import { normalize } from "@utils/event";
+import Conflicts from "../Conflicts";
 
 interface CreateModalProps {
   className?: string;
@@ -38,6 +48,7 @@ const CreateModal: FC<CreateModalProps> = ({ className, setNeedFetch }) => {
   const [message, setMessage] = useState<string>("");
   const [isError, setIsError] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  const [conflicts, setConflicts] = useState<IEvent[]>([]);
 
   const {
     register,
@@ -45,8 +56,18 @@ const CreateModal: FC<CreateModalProps> = ({ className, setNeedFetch }) => {
     clearErrors,
     watch,
     setError,
+    reset,
     formState: { errors },
   } = useForm<Inputs>();
+
+  useEffect(() => {
+    if (!isCreateOpen) {
+      reset();
+      setConflicts([]);
+      setIsError(false);
+      setMessage("");
+    }
+  }, [isCreateOpen, reset]);
 
   const onSubmit: SubmitHandler<Inputs> = useCallback(
     async (data) => {
@@ -62,6 +83,8 @@ const CreateModal: FC<CreateModalProps> = ({ className, setNeedFetch }) => {
         });
 
         setIsDisabled(false);
+        setIsError(false);
+        setMessage("");
         return;
       }
 
@@ -78,14 +101,22 @@ const CreateModal: FC<CreateModalProps> = ({ className, setNeedFetch }) => {
           setMessage("");
         }, 1500);
       } catch (e) {
-        setMessage("Something went wrong");
-        setIsError(true);
+        setIsDisabled(false);
+
+        if (axios.isAxiosError(e)) {
+          const data = e.response?.data;
+
+          setIsError(true);
+          setMessage(data.error);
+          setConflicts(data.events.map((item: ApiEvent) => normalize(item)));
+        } else {
+          setMessage("Something went wrong");
+          setIsError(true);
+        }
       }
     },
-    [setIsCreateOpen, setNeedFetch]
+    [setIsCreateOpen, setNeedFetch, setError]
   );
-
-  console.log(watch("endTime"));
 
   return (
     <Modal
@@ -188,6 +219,7 @@ const CreateModal: FC<CreateModalProps> = ({ className, setNeedFetch }) => {
         <div className={s.button}>
           <Button label="Create event" type="submit" disabled={isDisabled} />
         </div>
+        <Conflicts items={conflicts} />
       </form>
     </Modal>
   );

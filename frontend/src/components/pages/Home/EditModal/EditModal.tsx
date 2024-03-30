@@ -9,7 +9,7 @@ import {
 import cx from "classnames";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { EPriority } from "@type/event";
+import { ApiEvent, EPriority, IEvent } from "@type/event";
 
 import {
   IApplicationContext,
@@ -25,6 +25,9 @@ import Textarea from "@components/Textarea";
 import Radio from "@components/Radio";
 
 import s from "./EditModal.module.scss";
+import Conflicts from "../Conflicts/Conflicts";
+import axios from "axios";
+import { normalize } from "@utils/event";
 
 interface EditModalProps {
   className?: string;
@@ -46,12 +49,14 @@ const EditModal: FC<EditModalProps> = ({ className, setNeedFetch }) => {
   const [message, setMessage] = useState<string>("");
   const [isError, setIsError] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  const [conflicts, setConflicts] = useState<IEvent[]>([]);
 
   const {
     register,
     handleSubmit,
-    setValue,
     watch,
+    setValue,
+    setError,
     formState: { errors },
   } = useForm<Inputs>();
 
@@ -63,9 +68,32 @@ const EditModal: FC<EditModalProps> = ({ className, setNeedFetch }) => {
     setValue("endTime", editedEvent.endTime.substring(0, 16));
   }, [editedEvent, setValue]);
 
+  useEffect(() => {
+    if (!isEditOpen) {
+      setConflicts([]);
+      setIsError(false);
+      setMessage("");
+    }
+  }, [isEditOpen]);
+
   const onSubmit: SubmitHandler<Inputs> = useCallback(
     async (data) => {
       setIsDisabled(true);
+      setConflicts([]);
+
+      if (data.startTime === data.endTime) {
+        setError("startTime", {
+          type: "value",
+          message: "Can`t be equal",
+        });
+        setError("endTime", {
+          type: "value",
+          message: "Can`t be equal",
+        });
+
+        setIsDisabled(false);
+        return;
+      }
 
       try {
         await editEvent({ ...data, id: editedEvent.id });
@@ -79,11 +107,21 @@ const EditModal: FC<EditModalProps> = ({ className, setNeedFetch }) => {
           setMessage("");
         }, 1500);
       } catch (e) {
-        setMessage("Something went wrong");
-        setIsError(true);
+        setIsDisabled(false);
+
+        if (axios.isAxiosError(e)) {
+          const data = e.response?.data;
+
+          setIsError(true);
+          setMessage(data.error);
+          setConflicts(data.events.map((item: ApiEvent) => normalize(item)));
+        } else {
+          setMessage("Something went wrong");
+          setIsError(true);
+        }
       }
     },
-    [setIsEditOpen, setNeedFetch, editedEvent]
+    [setIsEditOpen, setNeedFetch, editedEvent, setError]
   );
 
   return (
@@ -177,6 +215,7 @@ const EditModal: FC<EditModalProps> = ({ className, setNeedFetch }) => {
         <div className={s.button}>
           <Button label="Edit event" type="submit" disabled={isDisabled} />
         </div>
+        <Conflicts items={conflicts} />
       </form>
     </Modal>
   );
