@@ -72,7 +72,10 @@ class EventListCreateAPIView(generics.ListCreateAPIView):
         if start_time >= end_time:
             return Response({'error': 'End time must be after start time'}, status=status.HTTP_400_BAD_REQUEST)
 
-        conflicting_events = Event.objects.filter(user=self.request.user, start_time__lt=end_time, end_time__gt=start_time)
+        conflicting_events = (Event.objects.filter
+                              (user=self.request.user,
+                               start_time__lt=end_time,
+                               end_time__gt=start_time)).order_by('start_time')
         if conflicting_events.exists():
             return Response({'error': 'Event time conflicts with existing event',
                              'events': conflicting_events.values()}, status=status.HTTP_400_BAD_REQUEST)
@@ -107,9 +110,10 @@ class EventDetailAPIView(RetrieveUpdateDestroyAPIView):
                 user=request.user,
                 start_time__lt=end_time,
                 end_time__gt=start_time
-            ).exclude(id=instance.id)  # Исключаем текущее событие из проверки конфликта
+            ).exclude(id=instance.id).order_by('start_time')  # Исключаем текущее событие из проверки конфликта
 
             if conflicting_events.exists():
+
                 return Response({'error': 'Conflict with existing events.', 'events': conflicting_events.values()},
                                 status=status.HTTP_400_BAD_REQUEST)
             else:
