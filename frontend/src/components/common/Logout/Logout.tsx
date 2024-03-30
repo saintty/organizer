@@ -24,7 +24,7 @@ const Logout: FC<LogoutProps> = ({ className }) => {
     <div className={cx(s.root, className)} onClick={handleClick}>
       <p className={s.label}>Exit</p>
       <button className={s.button}>
-        <MdOutlineLogout size={30} />
+        <MdOutlineLogout />
       </button>
     </div>
   );

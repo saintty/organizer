@@ -1,0 +1,78 @@
+@import "./../../../../styles/breakpoints.scss";
+
+.root {
+  margin-top: 20px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  text-align: center;
+  font-weight: 700;
+  font-size: 18px;
+
+  @include tablet {
+    display: none;
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  text-align: center;
+
+  & + & {
+    padding-top: 10px;
+    border-top: 1px solid black;
+  }
+
+  @include tablet {
+    flex-direction: column;
+    gap: 5px;
+    text-align: left;
+  }
+}
+
+.title,
+.priority {
+  display: block;
+  width: 100%;
+  max-width: 150px;
+  text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @include tablet {
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.time {
+  width: 100%;
+  flex: 1 1 0;
+}
+
+.hint {
+  display: none;
+  font-weight: 700;
+  @include tablet {
+    display: block;
+    width: 100%;
+  }
+}

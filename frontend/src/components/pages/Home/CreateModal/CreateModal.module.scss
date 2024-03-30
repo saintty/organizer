@@ -58,6 +58,10 @@
   @include tablet {
     gap: 10px;
   }
+
+  @include mobile {
+    flex-wrap: wrap;
+  }
 }
 
 .button {
@@ -66,6 +70,7 @@
 }
 
 .message {
+  position: static !important;
   margin-top: 20px;
   text-align: center;
   font-size: 20px;
@@ -82,4 +87,9 @@
   line-height: 16px;
   color: red;
   font-style: italic;
+
+  @include mobile {
+    position: static;
+    width: 100%;
+  }
 }

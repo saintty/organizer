@@ -2,7 +2,7 @@ const secondsUntilDayEnds = (date: Date): number => {
   return 86400000 - (date.getTime() % 86400000);
 };
 
-const convertDayToDayTime = (
+export const convertDayToDayTime = (
   date: Date,
   multiday: boolean = false,
   isStartDate: boolean = false

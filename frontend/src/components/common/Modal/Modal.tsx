@@ -1,5 +1,7 @@
-import { FC, PropsWithChildren } from "react";
+import { FC, PropsWithChildren, useEffect } from "react";
 import cx from "classnames";
+
+import useModal from "@hooks/useModal";
 
 import { MdOutlineClose } from "react-icons/md";
 import Container from "@components/Container";
@@ -18,6 +20,16 @@ const Modal: FC<PropsWithChildren<ModalProps>> = ({
   onClose,
   children,
 }) => {
+  const { enableScroll, disableScroll } = useModal();
+
+  useEffect(() => {
+    if (isVisible) {
+      disableScroll();
+    } else {
+      enableScroll();
+    }
+  }, [enableScroll, disableScroll, isVisible]);
+
   return (
     <div className={cx(s.root, className, { [s.visible]: isVisible })}>
       <Container>
