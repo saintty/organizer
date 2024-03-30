@@ -44,12 +44,27 @@ const CreateModal: FC<CreateModalProps> = ({ className, setNeedFetch }) => {
     handleSubmit,
     clearErrors,
     watch,
+    setError,
     formState: { errors },
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = useCallback(
     async (data) => {
       setIsDisabled(true);
+      if (data.startTime === data.endTime) {
+        setError("startTime", {
+          type: "value",
+          message: "Can`t be equal",
+        });
+        setError("endTime", {
+          type: "value",
+          message: "Can`t be equal",
+        });
+
+        setIsDisabled(false);
+        return;
+      }
+
       try {
         await createEvent(data);
         setMessage("Success create");
@@ -69,6 +84,8 @@ const CreateModal: FC<CreateModalProps> = ({ className, setNeedFetch }) => {
     },
     [setIsCreateOpen, setNeedFetch]
   );
+
+  console.log(watch("endTime"));
 
   return (
     <Modal
