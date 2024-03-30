@@ -4,7 +4,6 @@ from authentication.serializers import UserSerializer
 from .models import Event
 
 
-
 class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
