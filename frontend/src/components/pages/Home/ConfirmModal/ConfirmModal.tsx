@@ -16,6 +16,9 @@ interface ConfirmModalProps {
   label: string;
   acceptLabel: string;
   cancelLabel: string;
+  message: string;
+  isError: boolean;
+  isDisabled: boolean;
   onAccept: () => void;
   onCancel: () => void;
 }
@@ -27,6 +30,9 @@ const ConfirmModal: FC<ConfirmModalProps> = ({
   onCancel,
   acceptLabel,
   cancelLabel,
+  isDisabled,
+  isError,
+  message,
 }) => {
   const { isDeleteOpen } = useApplicationContext() as IApplicationContext;
 
@@ -38,9 +44,20 @@ const ConfirmModal: FC<ConfirmModalProps> = ({
     >
       <div className={s.content}>
         <h3 className={s.label}>{label}</h3>
+        {message && (
+          <p className={cx(s.message, { [s.error]: isError })}>{message}</p>
+        )}
         <div className={s.buttons}>
-          <Button label={acceptLabel} onClick={onAccept} />
-          <Button label={cancelLabel} onClick={onCancel} />
+          <Button
+            label={acceptLabel}
+            onClick={onAccept}
+            disabled={isDisabled}
+          />
+          <Button
+            label={cancelLabel}
+            onClick={onCancel}
+            disabled={isDisabled}
+          />
         </div>
       </div>
     </Modal>

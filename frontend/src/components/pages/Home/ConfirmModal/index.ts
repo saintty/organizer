@@ -1,1 +1,1 @@
-export { defualt } from "./ConfirmModal";
+export { default } from "./ConfirmModal";

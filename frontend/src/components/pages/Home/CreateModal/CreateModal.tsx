@@ -1,12 +1,15 @@
-import { ChangeEvent, FC, useCallback, useState } from "react";
+import { Dispatch, FC, SetStateAction, useCallback, useState } from "react";
 import cx from "classnames";
+import { SubmitHandler, useForm } from "react-hook-form";
 
-import { EPriority, IEvent } from "@type/event";
+import { EPriority } from "@type/event";
 
 import {
   IApplicationContext,
   useApplicationContext,
 } from "@context/ApplicationContext";
+
+import { createEvent } from "@api/event";
 
 import Modal from "@components/Modal";
 import Input from "@components/Input";
@@ -18,115 +21,157 @@ import s from "./CreateModal.module.scss";
 
 interface CreateModalProps {
   className?: string;
+  setNeedFetch: Dispatch<SetStateAction<boolean>>;
 }
 
-const CreateModal: FC<CreateModalProps> = ({ className }) => {
+type Inputs = {
+  title: string;
+  description: string;
+  startTime: string;
+  endTime: string;
+  priority: EPriority;
+};
+
+const CreateModal: FC<CreateModalProps> = ({ className, setNeedFetch }) => {
   const { isCreateOpen, setIsCreateOpen } =
     useApplicationContext() as IApplicationContext;
-  const [newEvent, setNewEvent] = useState<Omit<IEvent, "id">>({
-    title: "",
-    description: "",
-    startTime: "",
-    endTime: "",
-    priority: EPriority.medium,
-  });
+  const [message, setMessage] = useState<string>("");
+  const [isError, setIsError] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
-  const handleChangeField = useCallback(
-    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const changedValue: string =
-        e.target.type === "datetime-local"
-          ? e.target.value + ":00Z"
-          : e.target.value;
+  const {
+    register,
+    handleSubmit,
+    clearErrors,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>();
 
-      setNewEvent((prev) => ({ ...prev, [e.target.name]: changedValue }));
+  const onSubmit: SubmitHandler<Inputs> = useCallback(
+    async (data) => {
+      setIsDisabled(true);
+      try {
+        await createEvent(data);
+        setMessage("Success create");
+        setIsError(false);
+        setNeedFetch(true);
+
+        setTimeout(() => {
+          setIsCreateOpen(false);
+          setIsDisabled(false);
+
+          setMessage("");
+        }, 1500);
+      } catch (e) {
+        setMessage("Something went wrong");
+        setIsError(true);
+      }
     },
-    [setNewEvent]
+    [setIsCreateOpen, setNeedFetch]
   );
-
-  const handleToggleRadio = useCallback(
-    (value: EPriority) => setNewEvent((prev) => ({ ...prev, priority: value })),
-    []
-  );
-
-  const handleCreate = () => {
-    console.log(newEvent);
-  };
 
   return (
     <Modal
       className={cx(s.root, className)}
       isVisible={isCreateOpen}
-      onClose={() => setIsCreateOpen(false)}
+      onClose={() => {
+        setIsCreateOpen(false);
+        clearErrors();
+      }}
     >
-      <div className={s.content}>
-        <Input
-          value={newEvent.title}
-          onChange={handleChangeField}
-          name="title"
-        />
-        <Textarea
-          value={newEvent.description}
-          onChange={handleChangeField}
-          name="description"
-        />
-        <div className={s.dates}>
-          <div className={s.date}>
-            <span className={s.label}>Start: </span>
-            <Input
-              className={s.dateField}
-              value={newEvent.startTime.substring(0, 16)}
-              onChange={handleChangeField}
-              type="datetime-local"
-              name="startTime"
-            />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className={s.content}>
+          <Input
+            name="title"
+            errors={errors}
+            placeholder="New event title"
+            register={register}
+            rules={{ required: "Required field" }}
+          />
+          <Textarea
+            name="description"
+            register={register}
+            errors={errors}
+            rules={{
+              required: "Required field",
+            }}
+            placeholder="New event description"
+          />
+          <div className={s.dates}>
+            <div className={s.date}>
+              <span className={s.label}>Start: </span>
+              <Input
+                className={s.dateField}
+                type="datetime-local"
+                name="startTime"
+                register={register}
+                errors={errors}
+                rules={{
+                  required: "Required field",
+                  max: {
+                    value: watch("endTime"),
+                    message: "Should be less then end-time",
+                  },
+                }}
+              />
+            </div>
+            <div className={s.date}>
+              <span className={s.label}>End: </span>
+              <Input
+                className={s.dateField}
+                type="datetime-local"
+                name="endTime"
+                register={register}
+                errors={errors}
+                rules={{
+                  required: "Required field",
+                }}
+              />
+            </div>
           </div>
-          <div className={s.date}>
-            <span className={s.label}>End: </span>
-            <Input
-              className={s.dateField}
-              value={newEvent.endTime.substring(0, 16)}
-              onChange={handleChangeField}
-              type="datetime-local"
-              name="endTime"
-            />
+          <div className={s.priority}>
+            <p className={s.priorityTitle}>Priority</p>
+            <div className={s.radio}>
+              <Radio
+                id="low"
+                name="priority"
+                label="Low"
+                errors={errors}
+                register={register}
+                rules={{ required: "Required field" }}
+                value={EPriority.low}
+              />
+              <Radio
+                id="medium"
+                name="priority"
+                label="Medium"
+                errors={errors}
+                register={register}
+                rules={{ required: "Required field" }}
+                value={EPriority.medium}
+              />
+              <Radio
+                id="high"
+                name="priority"
+                label="High"
+                errors={errors}
+                register={register}
+                rules={{ required: "Required field" }}
+                value={EPriority.high}
+              />
+              {errors.priority?.message && (
+                <p className={s.error}>{errors.priority.message}</p>
+              )}
+            </div>
           </div>
         </div>
-        <div className={s.priority}>
-          <p className={s.priorityTitle}>Priority</p>
-          <div className={s.radio}>
-            <Radio
-              id="low"
-              value={EPriority.low}
-              onChange={handleChangeField}
-              onClick={handleToggleRadio}
-              name="priority"
-              label="Low"
-              checked={newEvent.priority === EPriority.low}
-            />
-            <Radio
-              id="medium"
-              onChange={handleChangeField}
-              onClick={handleToggleRadio}
-              value={EPriority.medium}
-              name="priority"
-              label="Medium"
-              checked={newEvent.priority === EPriority.medium}
-            />
-            <Radio
-              id="high"
-              onChange={handleChangeField}
-              onClick={handleToggleRadio}
-              value={EPriority.high}
-              name="priority"
-              label="High"
-              checked={newEvent.priority === EPriority.high}
-            />
-          </div>
+        {message && (
+          <p className={cx(s.message, { [s.error]: isError })}>{message}</p>
+        )}
+        <div className={s.button}>
+          <Button label="Create event" type="submit" disabled={isDisabled} />
         </div>
-      </div>
-      <div className={s.button}>
-        <Button label="Edit" onClick={handleCreate} />
-      </div>
+      </form>
     </Modal>
   );
 };

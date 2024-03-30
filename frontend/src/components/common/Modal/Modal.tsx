@@ -2,7 +2,6 @@ import { FC, PropsWithChildren } from "react";
 import cx from "classnames";
 
 import { MdOutlineClose } from "react-icons/md";
-
 import Container from "@components/Container";
 
 import s from "./Modal.module.scss";

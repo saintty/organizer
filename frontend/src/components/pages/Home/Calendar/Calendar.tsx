@@ -6,6 +6,11 @@ import { TEventMap } from "@type/event";
 
 import { joinCalendarWithEvents, withHightPriority } from "@utils/calendar";
 
+import {
+  IApplicationContext,
+  useApplicationContext,
+} from "@context/ApplicationContext";
+
 import Button from "@components/Button";
 
 import s from "./Calendar.module.scss";
@@ -17,6 +22,8 @@ interface CalendarProps {
 }
 
 const Calendar: FC<CalendarProps> = ({ className, onClick, events }) => {
+  const { setIsCreateOpen } = useApplicationContext() as IApplicationContext;
+
   const yearNow: MutableRefObject<number> = useRef<number>(
     new Date().getFullYear()
   );
@@ -63,20 +70,25 @@ const Calendar: FC<CalendarProps> = ({ className, onClick, events }) => {
 
   const handleNext = useCallback(() => setMonthShift((prev) => prev + 1), []);
   const handlePrev = useCallback(() => setMonthShift((prev) => prev - 1), []);
+  const handleNew = useCallback(() => setIsCreateOpen(true), [setIsCreateOpen]);
 
   return (
     <div className={cx(s.root, className)}>
       <div className={s.buttons}>
         <Button className={s.toggleMonth} label="Prev" onClick={handlePrev} />
         <p className={s.month}>
-          {new Date(yearNow.current, monthShift, 0).toLocaleDateString("en", {
-            year: "numeric",
-            month: "long",
-          })}
+          {new Date(yearNow.current, monthShift + 1, 0).toLocaleDateString(
+            "en",
+            {
+              year: "numeric",
+              month: "long",
+            }
+          )}
         </p>
         <Button className={s.toggleMonth} label="Next" onClick={handleNext} />
       </div>
       <ul className={s.calendar}>{calendar.map(renderWeek)}</ul>
+      <Button className={s.button} label="New event" onClick={handleNew} />
     </div>
   );
 };

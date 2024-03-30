@@ -14,6 +14,7 @@ export default defineConfig({
       "@stub": path.resolve(__dirname, "./src/stub/"),
       "@utils": path.resolve(__dirname, "./src/utils/"),
       "@context": path.resolve(__dirname, "./src/context/"),
+      "@api": path.resolve(__dirname, "./src/api/"),
     },
   },
 });

@@ -5,14 +5,12 @@ import { IEvent } from "@type/event";
 
 import { convertPeriodToDayPart, convertTimeMonthPart } from "@utils/date";
 
-import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
-
 import {
   IApplicationContext,
   useApplicationContext,
 } from "@context/ApplicationContext";
 
-import Button from "@components/Button";
+import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
 
 import s from "./Events.module.scss";
 
@@ -26,9 +24,9 @@ const Events: FC<EventsProps> = ({ className, date, items }) => {
   const {
     setEditedEvent,
     setIsEditOpen,
-    setIsCreateOpen,
     deleteLabel,
     setIsDeleteOpen,
+    setDeleteId,
   } = useApplicationContext() as IApplicationContext;
 
   return (
@@ -36,7 +34,6 @@ const Events: FC<EventsProps> = ({ className, date, items }) => {
       <section className={cx(s.root, className)}>
         <div className={s.header}>
           <h2 className={s.title}>{date && convertTimeMonthPart(date)}</h2>
-          <Button label="New event" onClick={() => setIsCreateOpen(true)} />
         </div>
         {items.length > 0 ? (
           <ul className={s.list}>
@@ -70,6 +67,7 @@ const Events: FC<EventsProps> = ({ className, date, items }) => {
                       onClick={() => {
                         deleteLabel.current = `Remove event "${item.title}"?`;
                         setIsDeleteOpen(true);
+                        setDeleteId(item.id);
                       }}
                     >
                       <MdDeleteOutline size={25} />

@@ -1,7 +1,7 @@
 export enum EPriority {
-  high = "High",
-  medium = "Medium",
-  low = "Low",
+  high = "HIGH",
+  medium = "MEDIUM",
+  low = "LOWER",
 }
 
 export interface IEvent {
@@ -15,4 +15,14 @@ export interface IEvent {
 
 export type TEventMap = {
   [key: string]: IEvent[];
+};
+
+export type ApiEvent = {
+  id: number;
+  title: string;
+  description: string;
+  priority: EPriority;
+  start_time: string;
+  end_time: string;
+  user: number;
 };

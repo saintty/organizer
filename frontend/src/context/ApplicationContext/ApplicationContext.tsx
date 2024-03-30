@@ -22,6 +22,8 @@ export interface IApplicationContext {
   deleteLabel: MutableRefObject<string>;
   editedEvent: IEvent;
   setEditedEvent: Dispatch<SetStateAction<IEvent>>;
+  deleteId: number;
+  setDeleteId: Dispatch<SetStateAction<number>>;
 }
 
 const ApplicationContext = createContext<IApplicationContext | null>(null);
@@ -38,6 +40,7 @@ const ApplicationContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
   const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState<boolean>(false);
+  const [deleteId, setDeleteId] = useState<number>(-1);
   const deleteLabel = useRef("");
 
   return (
@@ -52,6 +55,8 @@ const ApplicationContextProvider: FC<PropsWithChildren> = ({ children }) => {
         isDeleteOpen,
         setIsDeleteOpen,
         deleteLabel,
+        deleteId,
+        setDeleteId,
       }}
     >
       {children}

@@ -1,31 +1,46 @@
-import { ChangeEvent, FC } from "react";
 import cx from "classnames";
+import {
+  DeepMap,
+  FieldError,
+  FieldValues,
+  Path,
+  RegisterOptions,
+  UseFormRegister,
+} from "react-hook-form";
 
 import s from "./Textarea.module.scss";
 
-interface TextareaProps {
+interface TextareaProps<T extends FieldValues> {
   className?: string;
-  value: string;
-  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   placeholder?: string;
-  name?: string;
+  name: Path<T>;
+  rules?: RegisterOptions;
+  register?: UseFormRegister<T>;
+  errors?: Partial<DeepMap<T, FieldError>>;
 }
 
-const Textarea: FC<TextareaProps> = ({
+const Textarea = <T extends FieldValues>({
   className,
-  value,
-  onChange,
-  placeholder = "",
+  placeholder,
   name,
-}) => {
+  errors,
+  register,
+  rules,
+}: TextareaProps<T>) => {
   return (
-    <textarea
-      className={cx(s.root, className)}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      name={name}
-    />
+    <div className={s.wrapper}>
+      <textarea
+        {...(register && register(name, rules))}
+        className={cx(s.root, className, {
+          [s.invalid]: errors && errors[name]?.message,
+        })}
+        placeholder={placeholder}
+        name={name}
+      />
+      {errors && errors[name]?.message && (
+        <span className={s.error}>{errors[name]?.message}</span>
+      )}
+    </div>
   );
 };
 
