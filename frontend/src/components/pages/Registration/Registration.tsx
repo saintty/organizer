@@ -136,12 +136,12 @@ const RegistrationPage: FC<RegistrationPageProps> = ({ className }) => {
             className={s.link}
             disabled={isDisable}
           />
-          {requestResultMessage && (
-            <p className={cx(s.message, { [s.error]: !isRequestOk })}>
-              {requestResultMessage}
-            </p>
-          )}
         </div>
+        {requestResultMessage && (
+          <p className={cx(s.message, { [s.error]: !isRequestOk })}>
+            {requestResultMessage}
+          </p>
+        )}
       </Form>
     </section>
   );
