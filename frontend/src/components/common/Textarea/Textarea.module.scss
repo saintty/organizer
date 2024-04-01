@@ -1,0 +1,68 @@
+@import "./../../../styles/breakpoints.scss";
+
+.wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.root {
+  display: block;
+  cursor: pointer;
+  width: 100%;
+  padding: 10px 20px;
+  resize: vertical;
+  max-height: 250px;
+  min-height: 100px;
+
+  border: none;
+  outline: none;
+  background-color: #e7f1fe;
+  border-radius: 14px;
+
+  font-size: 20px;
+  line-height: 28px;
+  font-family: "Kalam", sans-serif;
+
+  &,
+  &::placeholder {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  &::placeholder {
+    color: #71717a;
+  }
+
+  @include tablet {
+    padding: 5px 10px;
+    border-radius: 7px;
+    resize: none;
+
+    &,
+    &::placeholder {
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
+
+  &.invalid {
+    border: 2px solid red;
+    padding: 8px 20px;
+
+    @include tablet {
+      border: 1px solid red;
+      padding: 4px 10px;
+    }
+  }
+}
+
+.error {
+  position: absolute;
+  left: 10px;
+  right: 0;
+  bottom: -20px;
+  font-size: 14px;
+  line-height: 16px;
+  color: red;
+  font-style: italic;
+}

@@ -1,0 +1,26 @@
+**# Байт-код, оптимизированные / DLL-файлы
+__pycache__/
+*.py[cod]
+
+# Файлы конфигурации для venv
+venv/
+.env
+
+# Файлы дистрибутивов и артефакты упаковки
+dist/
+*.egg-info/
+
+# Файлы покрытия, кэши и прочие ненужные файлы
+.coverage
+*.py,cover
+.cache/
+
+/.DS_Store
+/.idea
+/.DS_Store
+.idea/
+.DS_Store
+
+
+.vs/
+backend/organizer/db.sqlite3

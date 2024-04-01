@@ -1,0 +1,36 @@
+@import "./../../../styles/breakpoints.scss";
+@import "./../../../styles/colors.scss";
+
+.root {
+  padding-bottom: 50px;
+
+  @include mobile {
+    padding-bottom: 10px;
+  }
+}
+
+.title {
+  padding: 46px 0;
+  font-size: 40px;
+  line-height: 50px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: center;
+
+  @include tablet {
+    padding: 20px 0;
+    font-size: 25px;
+    line-height: 30px;
+    letter-spacing: 1.25px;
+  }
+
+  @include mobile {
+    text-align: left;
+    padding: 15px;
+  }
+}
+
+.events {
+  margin-top: 20px;
+}

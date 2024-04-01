@@ -1,0 +1,21 @@
+$tabletScreenSizeL: 940;
+$tabletScreenSize: 700;
+$mobileScreenSize: 430;
+
+@mixin tabletL() {
+  @media only screen and (max-width: #{$tabletScreenSizeL}px) {
+    @content;
+  }
+}
+
+@mixin tablet() {
+  @media only screen and (max-width: #{$tabletScreenSize}px) {
+    @content;
+  }
+}
+
+@mixin mobile() {
+  @media only screen and (max-width: #{$mobileScreenSize}px) {
+    @content;
+  }
+}

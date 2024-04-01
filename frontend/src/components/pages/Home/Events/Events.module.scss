@@ -1,0 +1,92 @@
+@import "./../../../../styles/colors.scss";
+@import "./../../../../styles/breakpoints.scss";
+
+.root {
+  padding: 20px;
+  background-color: $white;
+  border-radius: 20px;
+
+  @include tablet {
+    padding: 10px;
+    border-radius: 10px;
+  }
+}
+
+.header {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.list {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+
+  @include tablet {
+    margin-top: 10px;
+  }
+}
+
+.event {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #99c7fb;
+
+  &Title {
+    font-weight: bold;
+  }
+
+  @include mobile {
+    border-radius: 5px;
+  }
+}
+
+.priority {
+  color: rgba($black, 0.5);
+  font-weight: normal;
+  margin-left: 20px;
+}
+
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.right {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+}
+
+.description {
+  margin-top: 10px;
+}
+
+.button {
+  cursor: pointer;
+  display: block;
+  width: 25px;
+  height: 25px;
+
+  background: none;
+  border: none;
+
+  @include mobile {
+    &,
+    & svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+.empty {
+  margin-top: 10px;
+}
